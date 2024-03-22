@@ -1,32 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [usd, setUsd] = useState(0)
+  const [lastUpdate, setLastUpdate] = useState('');
+
+  useEffect(() => {
+    fetchExchangeRates()
+  }, [])
+
+  const fetchExchangeRates = async () => {
+    const { data } = await axios.get('https://tcmb-exchange-rates-api.vercel.app/exchange-rates');
+
+    setUsd(data.exchangeRates.usd.banknoteBuying);
+    setLastUpdate(data.last_update.date_tr);
+  }
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1>1 Dolar Kaç Türk Lirası?</h1>
       </div>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        1 Dolar = {usd.toFixed(2)} Türk Lirası
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Kur verileri TCMB'nin yayınlamış olduğu güncel resmi verilerdir.
+      </p>
+      <p>
+        <span className="read-the-docs">Son Güncelleme:</span> <code>{lastUpdate}</code>
       </p>
     </>
   )

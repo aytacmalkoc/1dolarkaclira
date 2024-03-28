@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import DotLoader from "react-spinners/DotLoader";
-import './assets/App.css'
+import Logo from './assets/img/1dolarkaclira.png'
+import './assets/css/App.css'
 
 function App() {
   const [usd, setUsd] = useState(0)
@@ -24,7 +25,7 @@ function App() {
   return (
     <>
       <div>
-        <img src="/assets/img/1dolarkaclira.png" alt="" style={{ width: 250 }} />
+        <img src={Logo} alt="" style={{ width: 250 }} />
         <h1>1 Dolar Kaç Türk Lirası?</h1>
       </div>
       <div className='card'>
